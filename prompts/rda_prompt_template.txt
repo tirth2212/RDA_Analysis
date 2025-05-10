@@ -1,0 +1,55 @@
+You are an expert in static analysis.
+
+Your task is to perform a **Reaching Definition Analysis (RDA)** on the following {LANGUAGE} code snippet.
+
+---
+
+### 🧾 Instructions:
+
+1. Treat each **statement** as a **node**. Label them: Node 0, Node 1, etc.
+2. For each node, compute:
+   - **R0 (IN):** Definitions reaching this node (before execution)
+   - **GEN:** New definitions introduced here (format: (var, node_id))
+   - **KILL:** Variable names that are redefined here (e.g., {x}). Only include if this node **assigns** to the variable.
+   - **R. (OUT):** (R0 - KILL) ∪ GEN
+
+---
+
+### 📐 Formatting Rules:
+
+- Use table format like:
+
+| Node | Code          | R0 (IN)            | GEN         | KILL   | R. (OUT)          |
+|------|---------------|--------------------|-------------|--------|-------------------|
+| 0    | x = 1         | ∅                  | {(x,0)}     | ∅      | {(x,0)}           |
+
+
+- Use sets like `{(x,0)}` or `{x}`
+- Use `∅` for empty sets
+- KILL must **only include variables** that are assigned at this node
+- **Do NOT add to KILL** if the variable is only **used** in a condition or expression
+- `if`, `else`, or conditionals should have **GEN = ∅**, **KILL = ∅**
+- Always include all 6 columns: Node, Code, R0 (IN), GEN, KILL, R. (OUT) — even if GEN or KILL is ∅
+- Any assignment (e.g. `z = y`) must have a non-empty GEN set (e.g., {(z,node_id)})
+- For nodes with multiple predecessors, compute R0 (IN) as a single union set (e.g., R0 = {(x,0), (y,2), (y,4)}) — do not show separate possibilities
+- Do not format any table cell with multiple values separated by commas outside of a set.
+- The table must include both the header and a valid Markdown-style separator (use |---|---|...| with 6 columns).
+- Each row must have exactly 6 columns separated by |, even if some are ∅.
+
+---
+
+### ❌ DO NOT:
+- Kill a variable just because it's used
+- Include specific definitions (like (x,0)) in KILL — use only `{x}`
+- Simulate the program or its values
+- Output anything before the table
+
+---
+
+### ✅ OPTIONAL:
+After the table, briefly explain your logic for GEN, KILL, and R0 propagation.
+
+---
+
+### ✉️ Here is the code:
+{CODE}
