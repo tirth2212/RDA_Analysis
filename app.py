@@ -84,18 +84,24 @@ if code:
                     st.text_area("LLM Feedback", response, height=180, key=f"llm_response_{node_id}")
 
                     response_lower = response.lower()
-                    if any(phrase in response_lower for phrase in [
-                        "rda entry is correct",
-                        "semantically correct",
-                        "is valid",
-                        "no issues found",
-                        "no errors",
-                        "correct based on the provided information"
-                    ]):
+                    positive_indicators = [
+                        "is correct",
+                        "is semantically correct",
+                        "formally correct",
+                        "matches the calculated out",
+                        "accurately reflects",
+                        "no correction needed",
+                        "no changes required",
+                        "the entry is valid",
+                        "the rda entry is valid"
+                    ]
+
+                    if any(phrase in response_lower for phrase in positive_indicators):
                         correct_count += 1
                         status = "✅ Likely Correct"
                     else:
                         status = "❌ Needs Review"
+
 
                     summary_data.append({"Node": node_id, "Status": status})
 

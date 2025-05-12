@@ -62,6 +62,7 @@ Evaluate this RDA entry strictly by the above rules:
 - OUT: {out_set}
 
 Is this entry formally correct? Justify your answer with the exact application of RDA equations. If incorrect, provide the corrected values.
+Include verdict as 'Verdict:'
 """
 
 
